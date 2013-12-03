@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+    <RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <com.example.citylistview.CityListView
+        android:id="@+id/lv_citylist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@null"
+        android:dividerHeight="1dp"
+        android:scrollbars="none"/>
+
+    <LinearLayout 
+        android:id="@+id/ll_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignParentRight="true" >
+    </LinearLayout>
+	</RelativeLayout>
+</LinearLayout>
