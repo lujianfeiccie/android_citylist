@@ -1,11 +1,14 @@
 package com.example.citylistview;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.LinearLayout;
+
+import com.example.citylistview.CityListView.ChineseCharComp;
 
 public class MainActivity extends Activity {
 
@@ -28,6 +31,13 @@ public class MainActivity extends Activity {
 	
 	public void initData() {
 		initCityData();
+		Collections.sort(this.data, new ChineseCharComp());
+		data.add(0, "root定位城市");
+		data.add(1, "sub深圳市");
+		data.add(2,"root热门城市");
+		data.add(3,"sub北京市");
+		data.add(4,"sub上海市");
+		data.add(5,"sub广州市");
 		mListView.init(mLinearLayout,data);
 	}
 	public void initEvent() {

@@ -1,7 +1,6 @@
 package com.example.citylistview;
 
 import java.text.Collator;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -104,7 +103,6 @@ public class CityListView extends ListView implements OnTouchListener{
 				throw new NullPointerException("adapter data is null");
 			}
 			this.data=data;
-			Collections.sort(this.data, new ChineseCharComp());
 			this.inflater = LayoutInflater.from(getContext());
 			for (int i = 0; i < this.data.size(); i++) {
 				String alpha=PinyinUtils.getFirstLetter(this.data.get(i)).toUpperCase();
@@ -148,16 +146,28 @@ public class CityListView extends ListView implements OnTouchListener{
 			} else {
 				holder = (ViewHolder) convertView.getTag();
 			}
-			String alpha=PinyinUtils.getFirstLetter(getItem(position)).toUpperCase();
-			if (!isLetter(alpha))
-				alpha = "#";
-			if (mAlphaIndexMap.get(alpha) == position) {
-				holder.tvAlphaHeader.setVisibility(View.VISIBLE);
-				holder.tvAlphaHeader.setText(alpha);
-			} else {
-				holder.tvAlphaHeader.setVisibility(View.GONE);
-			}
-			holder.tvData.setText(getItem(position));
+			 String item_temp  = getItem(position);
+             if(item_temp.startsWith("root")){ //特殊情况：定位城市、热门城市
+             		holder.tvAlphaHeader.setVisibility(View.VISIBLE);
+             		holder.tvAlphaHeader.setText(item_temp.replace("root", ""));
+             		holder.tvData.setVisibility(View.GONE);
+             }else if(item_temp.startsWith("sub")){ 
+             		holder.tvAlphaHeader.setVisibility(View.GONE);
+             		holder.tvData.setText(item_temp.replace("sub", ""));
+             		holder.tvData.setVisibility(View.VISIBLE);
+             }
+             else{
+             	String alpha=PinyinUtils.getFirstLetter(item_temp).toUpperCase();
+             	if (!isLetter(alpha))
+             		alpha = "#";
+             	if (mAlphaIndexMap.get(alpha) == position) {
+             		holder.tvAlphaHeader.setVisibility(View.VISIBLE);
+             		holder.tvAlphaHeader.setText(alpha);
+             	} else {
+             		holder.tvAlphaHeader.setVisibility(View.GONE);
+             	}
+             	holder.tvData.setText(item_temp);
+             }
 			return convertView;
 		}
 	}
@@ -237,7 +247,7 @@ public class CityListView extends ListView implements OnTouchListener{
 	/**
 	 * 中文按首个英文字母排序
 	 */
-	public class ChineseCharComp implements Comparator {
+	public static class ChineseCharComp implements Comparator {
 		public int compare(Object o1, Object o2) {
 
 		Collator myCollator = Collator.getInstance(java.util.Locale.CHINA);
