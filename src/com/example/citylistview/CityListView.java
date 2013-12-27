@@ -250,12 +250,13 @@ public class CityListView extends ListView implements OnTouchListener{
 	public static class ChineseCharComp implements Comparator {
 		public int compare(Object o1, Object o2) {
 
-		Collator myCollator = Collator.getInstance(java.util.Locale.CHINA);
+			String alpha1=PinyinUtils.getFirstLetter(o1.toString()).toUpperCase();
+			String alpha2=PinyinUtils.getFirstLetter(o2.toString()).toUpperCase();
 
-		if (myCollator.compare(o1, o2) < 0){
+		if ((int)alpha1.charAt(0)- (int)alpha2.charAt(0)< 0){
 			return -1;
 		}
-		else if (myCollator.compare(o1, o2) > 0){
+		else if ((int)alpha1.charAt(0)-(int)alpha2.charAt(0) > 0){
 			return 1;
 		}
 		else
